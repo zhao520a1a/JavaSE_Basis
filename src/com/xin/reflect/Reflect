@@ -1,0 +1,27 @@
+反射： 加载类＋解剖类中成员  -----一般用框架中配置文件的编写
+
+
+ 加载类（获得类的字节码class文件）：有三种方法：
+		 * 1.Class.forName("类名");
+		 * 2.new 类名().getClass();
+		 * 3.类名.class;
+
+解剖类中成员  ：
+	解剖出构造函数    getConstructor(---)   getdeclaredConstructor(---);
+	解剖出成员函数    getMothod(---)        getDeclaredMethod(---);
+	解剖出成员变量    getField(--, ---)     getDeclaredField(---);
+	get***:适用于公有的成员；
+	getDeclared***：适用于私有的成员；    但是要想在类外访问要提前打开权限，即：setAccessible(true);
+	
+	
+	
+注：
+除了解剖出构造函数来创建一个类的对象外；jdk还提供了创建对象的另一种形式，newInstance()；
+但是它内部只能调用无参的默认构造函数来创建对象,所以该类必须有无参的构造函数才行；
+例： Class clazz = Person.class;
+    Person p = (Person) clazz.newInstance();
+
+记住：当方法的形参是数组时，要注意：由于jdk为了兼容会导致，你写一个数组，而jdk会将数组中的元素拆分成多个形参， 不会当作一个数组形参使用； 
+	 有两种解决方法：
+	  1.在外面再包一层数组，jdk拆开后正好是一个数组； 
+	  2.将数组强转成一个对象，让jdk将它当作一个对象看待；

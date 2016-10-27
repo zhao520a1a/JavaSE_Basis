@@ -1,0 +1,32 @@
+线程组： ThreadGroup 允许”批发地”处理线程，不仅仅可以包含单独的线程，还可以包含其他的ThreadGroup对象；
+ThreadGroup tg = new ThreadGroup();
+Thread t = new Thread(tg, this);// 创建线程，加入线程组tg
+Thread[] list = new Thread[pGroup.activeCount()];//activeCount()获得线程组中正在运行的线程数量；
+//enumerate()用来一次性的获得线程组中所有的线程来来进行某种操作；将线程对象设置到每个数组字段中，然后通过数组索引子来操作这些线程；
+int count = pGroup.enumerate(list);
+
+线程池：通过Eecutetor实现
+创建线程池：
+//单例线程，任意时间(同一时间)池中只能有一个线程
+	ExecutorService es = Executors.newSingleThreadExecutor();
+	
+// 创建一个固定大小的线程池,有8个线程
+	ExecutorService es = Executors.newFixedThreadPool(8);
+
+//声明一个带缓存的线程池,线程池为无限大，可以自动进行线程回收，当执行第二个任务时第一个任务已经完成，会复用执行第一个任务的线程，而不用每次新建线程。
+	ExecutorService es = Executors.newCachedThreadPool();
+
+回调功能：
+//提交一个返回值的任务用于执行，返回一个表示任务的未决结果的 Future
+	Future<String> f=es.submit(new MyCall(i));//线程执行完成以后可以通过引用获取返回值
+	
+常用方法：
+run()//创建任务
+excute(实现了run方法的线程对象)  //正常的执行任务
+submit(实现了Callable的类对象)  //实现回调时，执行任务	
+shutdown();  // 表示不在接收新的任务，并不是马上关闭正在运行的程序；
+awaitTermination(Long.MAX_VALUE, TimeUnit.DAYS); //用于等待子线程结束，再继续执行下面的代码。该例中我设置一直等着子线程结束。
+	
+优点：
+	1.减少了创建和销毁线程的次数，线程可以被重复的利用；
+	2.可以调整工作线程的数目，减小内存的开销；

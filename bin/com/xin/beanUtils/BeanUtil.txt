@@ -1,0 +1,10 @@
+使用beanUtils操作对象中属性（用第三方的jar包,需提前引入，beanutil.jar和logging.jar）
+语法形式：
+BeanUtils.setProperty(类的对象, "属性名", "属性值");
+但它只能直接操作的只支持8中基本数据类型；要是想使用引用类型，则需要给beanUtils注册一个转换器；
+方法：
+ConvertUtils.register(new Converter(){
+		//自定义转换规则
+		@Override
+			public Object convert(Class type, Object value) {	
+		}, 属性类型 );
